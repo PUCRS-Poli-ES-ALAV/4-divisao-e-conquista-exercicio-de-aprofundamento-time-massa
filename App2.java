@@ -1,8 +1,7 @@
 
-
 /*
  * O algoritmo a seguir (que não utiliza divisão-e-conquista) encontra o maior valor em um vetor.
-
+1,
 Assim, novamente:
 
 implemente o algortimo abaixo;
@@ -21,22 +20,56 @@ long maxVal1(long A[], int n) {
  *
  * @author piedr
  */
+
+import java.lang.Math;
+import java.util.Random;
+
 public class App2 {
 
     public static int counter = 0;
+
     public static void main(String[] args) {
-        long[] arr = {1, 2, 3, 4, 5, 6};
+        int length = 1000;
+
+        Random r = new Random();
+
+        long[] arr = new long[length];
+        for(int i =0; i < length; i++) arr[i] = (long)r.nextInt(100);
         long result = maxVal1(arr);
-        System.out.println(counter);
+
+        System.out.println("\nsem Div e Conq");
+        System.out.println("Contagem: " + counter);
+        System.out.println("Resultado: " + result);
+
+        counter = 0;
+
+        System.out.println("\ncom Div e Conq");
+
+        result = maxVal2(arr, 0, length - 1);
+        System.out.println("Contagem: " + counter);
+        System.out.println("Resultado: " + result);
+
     }
 
-    public static long maxVal1(long A[]) {  
-    long max = A[0];
-    for (int i = 1; i < A.length; i++) {  
-        if( A[i] > max ) 
-            max = A[i];
-        counter++;
+    public static long maxVal1(long A[]) {
+        long max = A[0];
+        for (int i = 1; i < A.length; i++) {
+            if (A[i] > max)
+                max = A[i];
+            counter++;
+        }
+        return max;
     }
-    return max;
-}
+
+    public static long maxVal2(long A[], int init, int end) {
+        counter++;
+        if (end - init <= 1)
+        return Math.max(A[init], A[end]);
+        else {
+            int m = (init + end) / 2;
+            long v1 = maxVal2(A, init, m);
+            long v2 = maxVal2(A, m + 1, end);
+            return Math.max(v1, v2);
+        }
+    }
 }
